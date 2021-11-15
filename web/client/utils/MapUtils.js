@@ -7,35 +7,30 @@
  */
 
 import {
-    isString,
-    trim,
-    isNumber,
-    pick,
-    get,
+    cloneDeep,
     find,
+    findIndex,
+    get,
+    isEmpty,
+    isEqual,
+    isNumber,
+    isString,
+    keys,
     mapKeys,
     mapValues,
-    keys,
-    uniq,
-    uniqWith,
-    isEqual,
-    isEmpty,
-    findIndex,
-    cloneDeep,
     minBy,
-    omit
+    omit,
+    pick,
+    trim,
+    uniq,
+    uniqWith
 } from 'lodash';
 
 import uuidv1 from 'uuid/v1';
 
-import { getUnits } from './CoordinatesUtils';
-import { set } from './ImmutableUtils';
-import {
-    saveLayer,
-    getGroupNodes,
-    getNode,
-    extractSourcesFromLayers
-} from './LayersUtils';
+import {getUnits} from './CoordinatesUtils';
+import {set} from './ImmutableUtils';
+import {extractSourcesFromLayers, getGroupNodes, getNode, saveLayer} from './LayersUtils';
 import assign from 'object-assign';
 
 export const DEFAULT_SCREEN_DPI = 96;
@@ -379,8 +374,7 @@ export function saveMapConfiguration(currentMap, currentLayers, currentGroups, c
     });
 
     const flatGroupId = currentGroups.reduce((a, b) => {
-        const flatGroups = a.concat(getGroupNodes(b));
-        return flatGroups;
+        return a.concat(getGroupNodes(b));
     }, [].concat(currentGroups.map(g => g.id)));
 
     const groups = flatGroupId.map(g => {
@@ -424,7 +418,7 @@ export function saveMapConfiguration(currentMap, currentLayers, currentGroups, c
     return {
         version: 2,
         // layers are defined inside the map object
-        map: assign({}, map, {layers: formattedLayers, groups, backgrounds, text_search_config: textSearchConfig, bookmark_search_config: bookmarkSearchConfig},
+        map: assign({}, map, {layers: formattedLayers, groups, flatOrder: flatGroupId, backgrounds, text_search_config: textSearchConfig, bookmark_search_config: bookmarkSearchConfig},
             !isEmpty(sources) && {sources} || {}),
         ...additionalOptions
     };

@@ -363,7 +363,7 @@ export const normalizeMap = (rawMap = {}) =>
  * @return function that filter by group
  */
 export const belongsToGroup = (gid) => l => (l.group || "Default") === gid || (l.group || "").indexOf(`${gid}.`) === 0;
-export const getLayersByGroup = (configLayers, configGroups) => {
+export const getLayersByGroup = (configLayers, configGroups, flatOrder = []) => {
     let i = 0;
     let mapLayers = configLayers.map((layer) => assign({}, layer, {storeIndex: i++}));
     let groupNames = mapLayers.reduce((groups, layer) => {
@@ -382,6 +382,11 @@ export const getLayersByGroup = (configLayers, configGroups) => {
                 subGroups.push(group);
             } else if (addLayers) {
                 group.nodes = group.nodes.concat(getLayersId(groupId, mapLayers));
+                flatOrder.length && group.nodes.sort((a, b) => {
+                    const idA = isObject(a) ? a.id : a;
+                    const idB = isObject(b) ? b.id : b;
+                    return flatOrder.indexOf(idA) - flatOrder.indexOf(idB);
+                });
             }
             return group.nodes;
         }, groups);
@@ -445,7 +450,7 @@ export const sortUsing = (sortFun, action) => {
 };
 export const splitMapAndLayers = (mapState) => {
     if (mapState && isArray(mapState.layers)) {
-        let groups = LayersUtils.getLayersByGroup(mapState.layers, mapState.groups);
+        let groups = LayersUtils.getLayersByGroup(mapState.layers, mapState.groups, mapState.map?.flatOrder);
         // additional params from saved configuration
         if (isArray(mapState.groups)) {
             groups = mapState.groups.reduce((g, group) => {

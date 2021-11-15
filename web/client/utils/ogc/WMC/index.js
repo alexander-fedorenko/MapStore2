@@ -212,6 +212,7 @@ export const toMapConfig = (wmcString, generateLayersGroup = false) => {
                 const filterJSON = get(msTagExtractor(layerExtensions, 'filter'), 'charContent');
                 const msParameters = {
                     group: get(msTagExtractor(layerExtensions, 'group'), 'charContent'),
+                    order: get(msTagExtractor(layerExtensions, 'order'), 'charContent'),
                     search: searchTag && {
                         url: xlinkExtractor(searchTag, 'href'),
                         type: attrExtractor(searchTag, 'type')
@@ -258,6 +259,7 @@ export const toMapConfig = (wmcString, generateLayersGroup = false) => {
                         crs: projection
                     } : undefined,
                     group: msParameters.group || (olParameters.isBaseLayer ? 'background' : layerGroup),
+                    order: msParameters.order,
                     opacity: olParameters.opacity,
                     search: msParameters.search,
                     layerFilter: msParameters.filter,
@@ -281,6 +283,7 @@ export const toMapConfig = (wmcString, generateLayersGroup = false) => {
             const msGroupsTag = msTagExtractor(globalExtensions, 'GroupList');
             const msGroups = msTagsExtractor(msGroupsTag, 'Group').map(group => ({
                 id: attrExtractor(group, 'id'),
+                order: attrExtractor(group, 'order'),
                 title: attrExtractor(group, 'title'),
                 expanded: parseBoolean(attrExtractor(group, 'expanded'))
             }));
@@ -313,6 +316,14 @@ export const toMapConfig = (wmcString, generateLayersGroup = false) => {
                     }), {})
                 }), {});
 
+            const flatOrder = (groups.concat(layers))
+                .filter((i) => typeof i.order !== 'undefined')
+                .sort((a, b) => a.order - b.order)
+                .reduce((o, current) => {
+                    o.push(current.id);
+                    return o;
+                }, []);
+
             const msMapConfig = {
                 catalogServices: catalogServices && {
                     selectedService,
@@ -323,6 +334,7 @@ export const toMapConfig = (wmcString, generateLayersGroup = false) => {
                     bbox: zoom ? undefined : bbox,
                     projection,
                     backgrounds: [],
+                    flatOrder,
                     groups,
                     layers,
                     center: has(center, 'x', 'y', 'crs') ? center : undefined,
@@ -377,7 +389,7 @@ export const toWMC = (
         attributes: makeSimpleXlink(href)
     });
 
-    const {maxExtent, bbox, projection, layers, groups, center, zoom} = map;
+    const {maxExtent, bbox, projection, layers, groups, flatOrder, center, zoom} = map;
 
     const makeMaxExtentFromBbox = bboxObj => {
         const reprojectedBbox = reprojectBbox(bboxObj.bounds, bboxObj.crs, projection);
@@ -403,15 +415,19 @@ export const toWMC = (
     }], namespaces.ol);
     const msExtensionsGeneral = assignNamespace([groups.length > 0 ? {
         name: 'GroupList',
-        children: groups.map(group => ({
-            name: 'Group',
-            xmlns: namespaces.ms,
-            attributes: objectToAttributes({
-                id: group.id,
-                title: group.title,
-                expanded: group.expanded
-            })
-        }))
+        children: groups.map(group => {
+            const groupOrder = flatOrder.indexOf(group.id);
+            return ({
+                name: 'Group',
+                xmlns: namespaces.ms,
+                attributes: objectToAttributes({
+                    id: group.id,
+                    order: groupOrder === -1 ? undefined : groupOrder,
+                    title: group.title,
+                    expanded: group.expanded
+                })
+            });
+        })
     } : null, catalogServices && {
         name: 'CatalogServices',
         attributes: catalogServices.selectedService && objectToAttributes({
@@ -491,6 +507,9 @@ export const toWMC = (
             const msExtensions = assignNamespace([{
                 name: 'group',
                 textContent: layer.group || 'Default'
+            }, flatOrder.includes(layer.id) && {
+                name: 'order',
+                textContent: flatOrder.indexOf(layer.id).toString()
             }, layer.search && {
                 name: 'search',
                 attributes: [{
