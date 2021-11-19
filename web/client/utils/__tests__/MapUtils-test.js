@@ -509,6 +509,14 @@ describe('Test the MapUtils', () => {
                         maxResolution: undefined,
                         disableResolutionLimits: undefined
                     }],
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     mapOptions: {},
                     maxExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
                     projection: 'EPSG:900913',
@@ -652,6 +660,14 @@ describe('Test the MapUtils', () => {
                     center: {crs: 'EPSG:4326', x: 0, y: 0},
                     backgrounds: [{id: 'layer005', thumbnail: 'data'}],
                     mapInfoControl: undefined,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',
@@ -1104,6 +1120,14 @@ describe('Test the MapUtils', () => {
                     center: { crs: 'EPSG:4326', x: 0, y: 0 },
                     backgrounds: [],
                     mapInfoControl: undefined,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',
@@ -1415,6 +1439,14 @@ describe('Test the MapUtils', () => {
                     center: {crs: 'EPSG:4326', x: 0, y: 0},
                     backgrounds: [],
                     mapInfoControl: undefined,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',
@@ -1801,6 +1833,14 @@ describe('Test the MapUtils', () => {
                         tooltipOptions: undefined,
                         tooltipPlacement: undefined
                     }],
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     text_search_config: '', bookmark_search_config: {} }
             });
         });
@@ -1863,6 +1903,14 @@ describe('Test the MapUtils', () => {
                     center: {crs: 'EPSG:4326', x: 0, y: 0},
                     backgrounds: [],
                     mapInfoControl: undefined,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',
@@ -2024,6 +2072,14 @@ describe('Test the MapUtils', () => {
                     center: {crs: 'EPSG:4326', x: 0, y: 0},
                     backgrounds: [],
                     mapInfoControl: undefined,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',
@@ -2225,6 +2281,14 @@ describe('Test the MapUtils', () => {
                     center: {crs: 'EPSG:4326', x: 0, y: 0},
                     backgrounds: [],
                     mapInfoControl: true,
+                    flatOrder: [
+                        "Default",
+                        "custom",
+                        "layer001",
+                        "layer002",
+                        "layer003",
+                        "custom.nested001"
+                    ],
                     groups: [{
                         id: 'Default',
                         title: 'Default',

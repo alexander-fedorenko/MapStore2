@@ -133,13 +133,7 @@
         "catalogURL": null,
         "useForElevation": false,
         "hidden": false,
-        "params": {},
-        "capabilities": {
-            "style": [{
-                "name": "stylename",
-                "title": "A boring default style"
-            }]
-        }
+        "params": {}
       },
       {
         "id": "mapstore:Meteorite_Landings_from_NASA_Open_Data_Portal__6",
@@ -185,18 +179,6 @@
         "hidden": false,
         "params": {
           "time": "2013-01-01T00:00:00.000Z"
-        },
-        "capabilities": {
-            "style": [{
-                "name": "mapstore:meteorites",
-                "title": "Meteorite"
-            }],
-            "dimension": [{
-                "name": "time",
-                "units": "ISO8601",
-                "_default": "2101-01-01T00:00:00Z",
-                "value": "1583-01-01T00:00:00.000Z/2101-01-01T00:00:00.000Z/PT1S"
-            }]
         }
       },
       {
@@ -811,7 +793,18 @@
         "expanded": true
       }
     ],
-    "backgrounds": []
+    "flatOrder": [
+      "Default",
+      "37b5eb60-5189-11ea-8531-a737d86e9a07",
+      "mapstore:Types__8",
+      "gs:ne_110m_ocean__7",
+      "mapstore:states__9",
+      "mapstore:Meteorite_Landings_from_NASA_Open_Data_Portal__6",
+      "gs:ETOPO_Shadow__5",
+      "37b5eb60-5189-11ea-8531-a737d86e9a07.44bc9340-5189-11ea-8531-a737d86e9a07"
+    ],
+    "backgrounds": [],
+    "bookmark_search_config": {}
   },
   "catalogServices": {
     "services": {
@@ -824,7 +817,7 @@
           "parameter1": "value<>",
           "parameter2": 1,
           "parameter3": {
-              "parameter4": 2
+            "parameter4": 2
           },
           "parameter6": null
         }
@@ -850,5 +843,7 @@
       "xxs": []
     }
   },
-  "mapInfoConfiguration": {}
+  "mapInfoConfiguration": {},
+  "dimensionData": {},
+  "timelineData": {}
 }
