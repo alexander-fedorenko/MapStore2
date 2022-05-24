@@ -12,7 +12,7 @@ import {
     SET_END_VALUES_SUPPORT
 } from '../actions/timeline';
 import { MAP_CONFIG_LOADED } from '../actions/config';
-import { UPDATE_METADATA } from '../actions/playback';
+import { SET_INTERVAL_DATA } from '../actions/playback';
 import { set } from '../utils/ImmutableUtils';
 import { assign, pickBy, has } from 'lodash';
 
@@ -109,7 +109,7 @@ export default (state = {
         }, newState);
         return newState;
     }
-    case UPDATE_METADATA: {
+    case SET_INTERVAL_DATA: {
         return set('settings.snapRadioButtonEnabled', action.timeIntervalData, state);
     }
     case INIT_SELECT_LAYER: {
@@ -128,11 +128,13 @@ export default (state = {
     }
     case INIT_TIMELINE: {
         const endValuesSupport = state?.settings?.endValuesSupport;
+        const snapRadioButtonEnabled = state?.settings?.snapRadioButtonEnabled;
         return set(`settings`, {
             showHiddenLayers: action.showHiddenLayers,
             expandLimit: action.expandLimit,
             snapType: action.snapType,
-            endValuesSupport: endValuesSupport !== undefined ? endValuesSupport : action.endValuesSupport
+            endValuesSupport: endValuesSupport !== undefined ? endValuesSupport : action.endValuesSupport,
+            snapRadioButtonEnabled: snapRadioButtonEnabled !== undefined ? snapRadioButtonEnabled : action.snapRadioButtonEnabled
         }, state);
     }
     case MAP_CONFIG_LOADED: {
@@ -140,7 +142,8 @@ export default (state = {
             ...state,
             settings: {
                 ...state.settings,
-                endValuesSupport: action?.config?.timelineData?.endValuesSupport
+                endValuesSupport: action?.config?.timelineData?.endValuesSupport,
+                snapRadioButtonEnabled: action?.config?.timelineData?.snapRadioButtonEnabled
             }
         };
         return newState;
