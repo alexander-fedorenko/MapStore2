@@ -110,7 +110,12 @@ export default (config = {}, pluginsDef, overrideConfig = cfg => cfg) => {
                 updateActiveDockEpic,
                 setSupportedLocales,
                 readQueryParamsOnMapEpic,
-                saveUserSessionEpic, autoSaveSessionEpic, stopSaveSessionEpic, loadUserSessionEpic, removeUserSessionEpic, reloadOriginalConfigEpic,
+                saveUserSessionEpic,
+                autoSaveSessionEpic,
+                stopSaveSessionEpic,
+                loadUserSessionEpic,
+                removeUserSessionEpic,
+                reloadOriginalConfigEpic,
                 ...configAppEpics
             }),
 
